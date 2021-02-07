@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+        <style>
+            @import 'https://fonts.googleapis.com/css?family=Indie+Flower';
+        
+            body{
+                font-family: 'Indie Flower' !important;
+            }
+
+            button {
+                width: 150px; 
+                font-family: Indie Flower;
+                background-color: white; 
+                cursor: pointer;
+                font-size: 18px;
+            }
+
+            button:hover {
+                background-color: black;
+                color: white;
+            }
+
+
+        </style>
+    </head>   
+    <body>
+        <div style="text-align: center; display: inline-block; width: 150px; margin-left: 100px;">
+            Actions
+            <button id="new-page">New Page</button>
+            <button id="flush-page">Flush Page</button>
+            <button id="fetch-page">Fetch Page</button>
+            <button id="unpin-page">Unpin Page</button>
+            <button id="delete-page">Delete Page</button>
+            <button id="flush-all">Flush All Pages</button>
+        </div>
+
+        <div id="clock-replacer" style="display: none;"></div>
+        <div id="clock-replacer-rough" style="float: left; width: 400px; text-align: center;"></div>  
+        
+        <div id="buffer-pool" style="display: none;"></div>
+        <div id="buffer-pool-rough" style="float: left; width: 400px; text-align: center;"></div>   
+
+        <div id="disk" style="display: none;"></div>
+        <div id="disk-rough" style="clear: both; width: 800px; text-align: center;"></div>  
+        
+
+
+        <script src="main.js"></script>
+    </body>
+</html>

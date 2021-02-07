@@ -1,0 +1,22 @@
+{
+  "name": "buffer-pool-management",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "d3": "^5.16.0",
+    "d3-graphviz": "^3.1.0",
+    "svg2roughjs": "^2.1.6"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^7.0.0",
+    "webpack": "^5.20.0",
+    "webpack-cli": "^4.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
