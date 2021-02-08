@@ -125,11 +125,11 @@ func (b *BufferPoolManager) DeletePage(pageID PageID) error {
 	if page.pinCount > 0 {
 		return errors.New("Pin count greater than 0")
 	}
+	delete(b.pageTable, page.id)
+	(*b.replacer).Pin(frameID)
+	b.diskManager.DeallocatePage(pageID)
 
 	b.freeList = append(b.freeList, frameID)
-	delete(b.pageTable, page.id)
-
-	b.diskManager.DeallocatePage(pageID)
 
 	return nil
 
