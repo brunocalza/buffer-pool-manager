@@ -195,9 +195,9 @@ document.getElementById("flush-page").onclick = function() {
         fetch(`http://localhost:3000/flush?page=${pageId}`)
         .then(response => response.json())
         .then(data => { 
-            renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
-            renderBufferPool(data['PagesTable'], data['MaxPoolSize'])
-            renderClockReplacer(data['ClockReplacer'])
+        renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
+        renderBufferPool(data['PagesTable'], data['MaxPoolSize'], data['PinCount'])
+        renderClockReplacer(data['ClockReplacer'])
         })
         .catch((err) => {
             console.log(err)
@@ -212,9 +212,9 @@ document.getElementById("delete-page").onclick = function() {
         fetch(`http://localhost:3000/delete?page=${pageId}`)
         .then(response => response.json())
         .then(data => { 
-            renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
-            renderBufferPool(data['PagesTable'], data['MaxPoolSize'])
-            renderClockReplacer(data['ClockReplacer'])
+        renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
+        renderBufferPool(data['PagesTable'], data['MaxPoolSize'], data['PinCount'])
+        renderClockReplacer(data['ClockReplacer'])
         })
         .catch((err) => {
             console.log(err)
@@ -229,9 +229,9 @@ document.getElementById("unpin-page").onclick = function() {
         fetch(`http://localhost:3000/unpin?page=${pageId}`)
         .then(response => response.json())
         .then(data => { 
-            renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
-            renderBufferPool(data['PagesTable'], data['MaxPoolSize'])
-            renderClockReplacer(data['ClockReplacer'])
+        renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
+        renderBufferPool(data['PagesTable'], data['MaxPoolSize'], data['PinCount'])
+        renderClockReplacer(data['ClockReplacer'])
         })
         .catch((err) => {
             console.log(err)
@@ -246,9 +246,9 @@ document.getElementById("fetch-page").onclick = function() {
         fetch(`http://localhost:3000/fetch?page=${pageId}`)
         .then(response => response.json())
         .then(data => { 
-            renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
-            renderBufferPool(data['PagesTable'], data['MaxPoolSize'])
-            renderClockReplacer(data['ClockReplacer'])
+        renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
+        renderBufferPool(data['PagesTable'], data['MaxPoolSize'], data['PinCount'])
+        renderClockReplacer(data['ClockReplacer'])
         })
         .catch((err) => {
             console.log(err)
@@ -261,7 +261,7 @@ document.getElementById("flush-all").onclick = function() {
     .then(response => response.json())
     .then(data => { 
         renderDisk(data['PagesInDisk'], data['MaxDiskNumPages'])
-        renderBufferPool(data['PagesTable'], data['MaxPoolSize'])
+        renderBufferPool(data['PagesTable'], data['MaxPoolSize'], data['PinCount'])
         renderClockReplacer(data['ClockReplacer'])
     })
     .catch((err) => {
