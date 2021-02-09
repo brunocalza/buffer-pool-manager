@@ -1,5 +1,7 @@
 package bpm
 
+import "sort"
+
 // ClockReplacerRepresentation represents the clock replacer for serialization
 type ClockReplacerRepresentation struct {
 	ClockHand int
@@ -38,6 +40,15 @@ func getClockReplacerRepresentation(clockReplacer *ClockReplacer) ClockReplacerR
 	return ClockReplacerRepresentation{clockHand, clockValues}
 }
 
+func pagesInDisk(diskManager DiskManager) []int {
+	keys := make([]int, 0)
+	for k := range diskManager.(*DiskManagerMock).pages {
+		keys = append(keys, int(k))
+	}
+	sort.Ints(keys)
+	return keys
+}
+
 //NewResponse creates a response for web server given a buffer pool manager
 func NewResponse(bufferPool *BufferPoolManager) Response {
 	pagePinCount := make(map[int]int)
@@ -48,11 +59,11 @@ func NewResponse(bufferPool *BufferPoolManager) Response {
 	}
 
 	return Response{
-		bufferPool.diskManager.PagesInDisk(),
+		pagesInDisk(bufferPool.diskManager),
 		MaxPoolSize,
 		bufferPool.pageTable,
 		getClockReplacerRepresentation(bufferPool.replacer),
-		bufferPool.diskManager.MaxNumPages(),
+		DiskMaxNumPages,
 		pagePinCount,
 	}
 }

@@ -9,8 +9,6 @@ import (
 	"github.com/brunocalza/bpm"
 )
 
-const maxDiskNumPages = 15
-
 func newPage(bufferPool *bpm.BufferPoolManager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -120,7 +118,7 @@ func flushAll(bufferPool *bpm.BufferPoolManager) http.HandlerFunc {
 func main() {
 
 	clockReplacer := bpm.NewClockReplacer(bpm.MaxPoolSize)
-	diskManager := bpm.NewDiskManagerMock(maxDiskNumPages)
+	diskManager := bpm.NewDiskManagerMock()
 
 	bufferPool := bpm.NewBufferPoolManager(diskManager, clockReplacer)
 
