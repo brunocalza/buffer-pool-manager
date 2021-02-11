@@ -27,12 +27,22 @@ func (b *BufferPoolManager) FetchPage(pageID PageID) *Page {
 	}
 
 	// get the id from free list or from replacer
-	frameID := b.getFrameID()
+	frameID, isFromFreeList := b.getFrameID()
 	if frameID == nil {
 		return nil
 	}
 
-	delete(b.pageTable, b.pages[*frameID].ID())
+	if !isFromFreeList {
+		// remove page from current frame
+		currentPage := b.pages[*frameID]
+		if currentPage != nil {
+			if currentPage.isDirty {
+				b.diskManager.WritePage(currentPage)
+			}
+
+			delete(b.pageTable, currentPage.id)
+		}
+	}
 
 	page, err := b.diskManager.ReadPage(pageID)
 	if err != nil {
@@ -84,19 +94,21 @@ func (b *BufferPoolManager) FlushPage(pageID PageID) bool {
 
 // NewPage allocates a new page in the buffer pool with the disk manager help
 func (b *BufferPoolManager) NewPage() *Page {
-	frameID := b.getFrameID()
+	frameID, isFromFreeList := b.getFrameID()
 	if frameID == nil {
 		return nil
 	}
 
-	// remove page from current frame
-	currentPage := b.pages[*frameID]
-	if currentPage != nil {
-		if currentPage.isDirty {
-			b.diskManager.WritePage(currentPage)
-		}
+	if !isFromFreeList {
+		// remove page from current frame
+		currentPage := b.pages[*frameID]
+		if currentPage != nil {
+			if currentPage.isDirty {
+				b.diskManager.WritePage(currentPage)
+			}
 
-		delete(b.pageTable, currentPage.id)
+			delete(b.pageTable, currentPage.id)
+		}
 	}
 
 	// allocates new page
@@ -142,15 +154,15 @@ func (b *BufferPoolManager) FlushAllpages() {
 	}
 }
 
-func (b *BufferPoolManager) getFrameID() *FrameID {
+func (b *BufferPoolManager) getFrameID() (*FrameID, bool) {
 	if len(b.freeList) > 0 {
 		frameID, newFreeList := b.freeList[0], b.freeList[1:]
 		b.freeList = newFreeList
 
-		return &frameID
+		return &frameID, true
 	}
 
-	return (*b.replacer).Victim()
+	return (*b.replacer).Victim(), false
 }
 
 //NewBufferPoolManager returns a empty buffer pool manager
